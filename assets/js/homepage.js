@@ -10,6 +10,7 @@ apiUrl = "https://api.github.com/users/" + user + "/repos";
 
 // make a request to the url
 fetch(apiUrl).then(function(response){
+  if(response.ok) { 
 response.json().then(function(data) {
     //console.log(data);
  
@@ -17,10 +18,22 @@ response.json().then(function(data) {
       displayRepos(data, user);
     
    });
+  }else{
+    alert("Error: Github User Not Found");
+  }
+ })
+ .catch(function(error) {
+   //  Notice this `.catch()` getting chained onto the end of the `.then()`
+   alert("unable to connect to GitHub");
+   console.log(error);
  });
 };
 
 var displayRepos = function(repos, searchTerm) {
+  if (repos.length === 0) {
+    repoContainerEl.textContent = "No repositiries found for this user.";
+    return;
+  }
   repoContainerEl.textContent = "";
   repoSearchTerm.textContent = searchTerm;
   // loop over repos
