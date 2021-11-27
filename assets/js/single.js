@@ -1,6 +1,8 @@
 var issuesContainerEl = document.querySelector("#issues-container");
 var repoNameEl = document.querySelector("#repo-name");
 
+
+
 var getRepoName = function() {
     // get search at end of query string
     var queryString = document.location.search;
@@ -69,3 +71,5 @@ var getRepoIssues = function(repo) {
    });
 };
 getRepoName();
+
+
