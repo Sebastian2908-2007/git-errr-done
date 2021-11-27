@@ -1,10 +1,29 @@
 var issuesContainerEl = document.querySelector("#issues-container");
+var repoNameEl = document.querySelector("#repo-name");
+
+var getRepoName = function() {
+    // get search at end of query string
+    var queryString = document.location.search;
+    // split query search tem for name and repo
+    var repoName = queryString.split("=")[1];
+    console.log(repoName);
+    if (repoName) {
+    // make repo name apperar at top of page
+    repoNameEl.textContent = repoName;
+    // pass repo name to getRepoIssues
+    getRepoIssues(repoName);
+    }else {
+        // if no repo was given redirect to the homepage
+        document.location.replace("./index.html");
+    }
+}
 // the function that makes displaying repos on page possible
 var displayIssues = function(issues) {
     if (issues.length === 0) {
         issuesContainerEl.innerHTML =" This repo has no open issues!";
         return;
     }
+    // loop over data to create issues on page
 for(i=0; i < issues.length; i++) {
     // create a link element to take users to the issue on github 
     var issueEl = document.createElement("a");
@@ -41,11 +60,12 @@ var getRepoIssues = function(repo) {
        if(response.ok) {
            response.json().then(function(data) {
               displayIssues(data);
-              console.log(data);
+              //console.log(data);
            });
        }else {
-           alert("There was a problem with your request");
+           // if response is no good homepage redirect
+          document.location.replace("./index.html")
        }
    });
 };
-getRepoIssues("Sebastian2908-2007/employee-cms");
+getRepoName();
